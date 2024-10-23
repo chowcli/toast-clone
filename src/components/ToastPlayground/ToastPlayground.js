@@ -48,7 +48,11 @@ function ToastPlayground() {
         <h1>Toast Playground</h1>
       </header>
 
-      {showToast && <Toast message={message} variant={variant} handleShow={() => handleShow(false)} />}
+      {showToast && (
+        <Toast variant={variant} handleShow={() => handleShow(false)}>
+          {message}
+        </Toast>
+      )}
 
       <div className={styles.controlsWrapper}>
         <div className={styles.row}>
