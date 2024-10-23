@@ -1,6 +1,7 @@
 import React from "react";
 
 import Button from "../Button";
+import Toast from "../Toast/Toast";
 
 import styles from "./ToastPlayground.module.css";
 
@@ -26,12 +27,19 @@ function Option({ opt, selectVariant, handleSelect }) {
   );
 }
 
+const PureOption = React.memo(Option);
+
 function ToastPlayground() {
   const [message, setMessage] = React.useState("");
   const [variant, setVariant] = React.useState("notice");
+  const [showToast, setShowToast] = React.useState(false);
+
+  const handleSelectVariant = React.useCallback(event => {
+    setVariant(event.target.value);
+  }, []);
 
   const handleChangeMessage = event => setMessage(event.target.value);
-  const handleSelectVariant = event => setVariant(event.target.value);
+  const handleShow = value => setShowToast(value);
 
   return (
     <div className={styles.wrapper}>
@@ -39,6 +47,8 @@ function ToastPlayground() {
         <img alt="Cute toast mascot" src="/toast.png" />
         <h1>Toast Playground</h1>
       </header>
+
+      {showToast && <Toast message={message} variant={variant} handleShow={() => handleShow(false)} />}
 
       <div className={styles.controlsWrapper}>
         <div className={styles.row}>
@@ -53,14 +63,14 @@ function ToastPlayground() {
         <div className={styles.row}>
           <div className={styles.label}>Variant</div>
           {VARIANT_OPTIONS.map(opt => (
-            <Option key={opt} opt={opt} selectVariant={variant} handleSelect={handleSelectVariant} />
+            <PureOption key={opt} opt={opt} selectVariant={variant} handleSelect={handleSelectVariant} />
           ))}
         </div>
 
         <div className={styles.row}>
           <div className={styles.label} />
           <div className={`${styles.inputWrapper} ${styles.radioWrapper}`}>
-            <Button>Pop Toast!</Button>
+            <Button onClick={() => handleShow(true)}>Pop Toast!</Button>
           </div>
         </div>
       </div>
