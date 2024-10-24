@@ -71,34 +71,32 @@ function ToastPlayground() {
         <ToastShelf></ToastShelf>
       </ShelfContext.Provider>
 
-      <form onSubmit={handleSubmit}>
-        <div className={styles.controlsWrapper}>
-          <div className={styles.row}>
-            <label htmlFor="message" className={styles.label} style={{ alignSelf: "baseline" }}>
-              Message
-            </label>
-            <div className={styles.inputWrapper}>
-              <textarea
-                id="message"
-                className={styles.messageInput}
-                value={message}
-                onChange={event => setMessage(event.target.value)}
-              />
-            </div>
+      <form className={styles.controlsWrapper} onSubmit={handleSubmit}>
+        <div className={styles.row}>
+          <label htmlFor="message" className={styles.label} style={{ alignSelf: "baseline" }}>
+            Message
+          </label>
+          <div className={styles.inputWrapper}>
+            <textarea
+              id="message"
+              className={styles.messageInput}
+              value={message}
+              onChange={event => setMessage(event.target.value)}
+            />
           </div>
+        </div>
 
-          <div className={styles.row}>
-            <div className={styles.label}>Variant</div>
-            {VARIANT_OPTIONS.map(opt => (
-              <PureOption key={opt} opt={opt} selectVariant={variant} handleSelect={handleSelectVariant} />
-            ))}
-          </div>
+        <div className={styles.row}>
+          <div className={styles.label}>Variant</div>
+          {VARIANT_OPTIONS.map(opt => (
+            <PureOption key={opt} opt={opt} selectVariant={variant} handleSelect={handleSelectVariant} />
+          ))}
+        </div>
 
-          <div className={styles.row}>
-            <div className={styles.label} />
-            <div className={`${styles.inputWrapper} ${styles.radioWrapper}`}>
-              <Button>Pop Toast!</Button>
-            </div>
+        <div className={styles.row}>
+          <div className={styles.label} />
+          <div className={`${styles.inputWrapper} ${styles.radioWrapper}`}>
+            <Button>Pop Toast!</Button>
           </div>
         </div>
       </form>
