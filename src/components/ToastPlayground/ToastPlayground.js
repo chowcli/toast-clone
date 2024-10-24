@@ -1,5 +1,7 @@
 import React from "react";
 
+import { ShelfContext } from "../ToastProvider/ToastProvider";
+
 import Button from "../Button";
 import ToastShelf from "../ToastShelf/ToastShelf";
 
@@ -7,7 +9,7 @@ import styles from "./ToastPlayground.module.css";
 
 const VARIANT_OPTIONS = ["notice", "warning", "success", "error"];
 
-function Option({ opt, selectVariant, handleSelect }) {
+function Option({ opt, pickedVariant, setVariant }) {
   console.log("Option re-render");
 
   const id = `variant-${opt}`;
@@ -20,8 +22,8 @@ function Option({ opt, selectVariant, handleSelect }) {
           type="radio"
           name="variant"
           value={opt}
-          checked={opt === selectVariant}
-          onChange={handleSelect}
+          checked={opt === pickedVariant}
+          onChange={event => setVariant(event.target.value)}
         />
         {opt}
       </label>
@@ -31,31 +33,15 @@ function Option({ opt, selectVariant, handleSelect }) {
 
 const PureOption = React.memo(Option);
 
-export const ShelfContext = React.createContext();
-
 function ToastPlayground() {
+  const { addToast } = React.useContext(ShelfContext);
   const [message, setMessage] = React.useState("");
   const [variant, setVariant] = React.useState("notice");
-  const [shelf, setShelf] = React.useState([]);
-
-  const handleSelectVariant = React.useCallback(event => {
-    setVariant(event.target.value);
-  }, []);
-
-  const shelfContextValue = React.useMemo(() => {
-    return { shelf, setShelf };
-  }, [shelf]);
 
   const handleSubmit = event => {
     event.preventDefault();
 
-    setShelf(value => {
-      const id = crypto.randomUUID().substring(7);
-      const newValue = [...value, { id, variant, message }];
-
-      return newValue;
-    });
-
+    addToast(variant, message);
     setMessage("");
     setVariant("notice");
   };
@@ -67,9 +53,7 @@ function ToastPlayground() {
         <h1>Toast Playground</h1>
       </header>
 
-      <ShelfContext.Provider value={shelfContextValue}>
-        <ToastShelf></ToastShelf>
-      </ShelfContext.Provider>
+      <ToastShelf></ToastShelf>
 
       <form className={styles.controlsWrapper} onSubmit={handleSubmit}>
         <div className={styles.row}>
@@ -89,7 +73,7 @@ function ToastPlayground() {
         <div className={styles.row}>
           <div className={styles.label}>Variant</div>
           {VARIANT_OPTIONS.map(opt => (
-            <PureOption key={opt} opt={opt} selectVariant={variant} handleSelect={handleSelectVariant} />
+            <PureOption key={opt} opt={opt} pickedVariant={variant} setVariant={setVariant} />
           ))}
         </div>
 

@@ -1,12 +1,12 @@
 import React from "react";
-import { ShelfContext } from "../ToastPlayground/ToastPlayground";
+import { ShelfContext } from "../ToastProvider/ToastProvider";
 
 import Toast from "../Toast";
 
 import styles from "./ToastShelf.module.css";
 
 function ToastShelf() {
-  // console.log("ToastShelf re-render");
+  console.log("ToastShelf re-render");
 
   const { shelf } = React.useContext(ShelfContext);
 

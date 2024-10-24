@@ -1,6 +1,6 @@
 import React from "react";
 import { AlertOctagon, AlertTriangle, CheckCircle, Info, X } from "react-feather";
-import { ShelfContext } from "../ToastPlayground/ToastPlayground";
+import { ShelfContext } from "../ToastProvider/ToastProvider";
 
 import VisuallyHidden from "../VisuallyHidden";
 
@@ -14,9 +14,9 @@ const ICONS_BY_VARIANT = {
 };
 
 function Toast({ id, variant, children }) {
-  // console.log("Toast re-render");
+  console.log("Toast re-render");
 
-  const { setShelf } = React.useContext(ShelfContext);
+  const { removeToast } = React.useContext(ShelfContext);
 
   const variantStyle = `${styles.toast} ${styles[variant]}`;
   const Icon = ICONS_BY_VARIANT[variant];
@@ -27,15 +27,7 @@ function Toast({ id, variant, children }) {
         <Icon size={24} />
       </div>
       <p className={styles.content}>{children}</p>
-      <button
-        className={styles.closeButton}
-        onClick={() =>
-          setShelf(value => {
-            const newValue = value.filter(toast => toast.id !== id);
-
-            setShelf(newValue);
-          })
-        }>
+      <button className={styles.closeButton} onClick={() => removeToast(id)}>
         <X size={24} />
         <VisuallyHidden>Dismiss message</VisuallyHidden>
       </button>

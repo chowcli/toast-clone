@@ -1,12 +1,16 @@
-import React from 'react';
+import React from "react";
 
-import ToastPlayground from '../ToastPlayground';
-import Footer from '../Footer';
+import ToastPlayground from "../ToastPlayground";
+import ToastProvider from "../ToastProvider/ToastProvider";
+import Footer from "../Footer";
 
 function App() {
   return (
     <>
-      <ToastPlayground />
+      <ToastProvider>
+        <ToastPlayground />
+      </ToastProvider>
+
       <Footer />
     </>
   );
