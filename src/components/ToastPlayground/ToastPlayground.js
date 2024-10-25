@@ -34,6 +34,8 @@ function Option({ opt, pickedVariant, setVariant }) {
 const PureOption = React.memo(Option);
 
 function ToastPlayground() {
+  console.log("ToastPlayground re-render");
+
   const { addToast } = React.useContext(ShelfContext);
   const [message, setMessage] = React.useState("");
   const [variant, setVariant] = React.useState("notice");
